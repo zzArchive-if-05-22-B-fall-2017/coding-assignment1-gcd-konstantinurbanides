@@ -22,10 +22,8 @@ public class GCD {
         digitOne = input.nextInt();
         System.out.print("Second Number: ");
         digitTwo = input.nextInt();
-        int gcdOne = gcdPrimeFactors(digitOne, digitTwo);
-        System.out.println(gcdOne);
-        int gcdTwo = gcdEucledian(digitOne,digitTwo);
-        System.out.println(gcdTwo);
+        System.out.println(gcdPrimeFactors(digitOne, digitTwo));
+        System.out.println(gcdEucledian(digitOne,digitTwo));
     }
     
     /**
@@ -39,28 +37,35 @@ public class GCD {
         LinkedList<Integer> listDividerTwo = new LinkedList<>();
         int gcd = 1;
         int divider = 2;
+        if (a == 0 || b == 0) {
+            return 0;
+        }
+        if(a == 1 || b == 1){
+            return 1;
+        }
         
-        while(a % divider == 0){
-            a /= divider;
-            listDividerOne.addLast(divider);
+        do {
             while(a % divider != 0){
                 if (a == 1) {
                     break;
                 }
                 divider++;
             }
-        }
+            a /= divider;
+            listDividerOne.addLast(divider);
+        } while (a != 1);
         divider = 2;
-        while(b % divider == 0){
-            b /= divider;
-            listDividerTwo.addLast(divider);
+        do {
             while(b % divider != 0){
-                if(b == 1){
+                if (b == 1) {
                     break;
                 }
                 divider++;
             }
-        }
+            b /= divider;
+            listDividerTwo.addLast(divider);
+            
+        } while (b != 1);
         
         for(Integer i : listDividerOne){
             for(Integer j : listDividerTwo){
@@ -68,25 +73,16 @@ public class GCD {
                  listDividerTwo.remove(j);
                  gcd *= i;
                  break;
-             }  
+                }  
             }
         }
         return gcd;
     }
+    
     public static int gcdEucledian(int a, int b){
-        int biggerNumber = b;
-        int littlerNumber = a;
-        int buffer = 0;
-        
-        if (a > b) {
-            biggerNumber = a;
-            littlerNumber = b;
+        if(b == 0){
+            return a;
         }
-        do {
-            buffer = biggerNumber % littlerNumber;
-            biggerNumber = littlerNumber;
-            littlerNumber = buffer;
-        } while (littlerNumber != 0);
-        return biggerNumber;
+            return gcdEucledian(b, a % b);
     }
 }
